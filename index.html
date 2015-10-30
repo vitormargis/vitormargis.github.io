@@ -1,1 +1,114 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<style>
+  #field{
+    width: 1px;
+    height: 1px;
+    top: 48%;
+    left: 50%;
+    position: absolute;
+    margin: 0 auto;
+  }
+
+  #ball{
+    width: 40px;
+    height: 60px;
+    position: absolute;
+    background: url(http://www.text4all.net/img/tools_icon.png);
+    background-size: 100%;
+    border-radius: 100%;
+  }
+
+  .bust{
+    width: 400px;
+    position: absolute;
+    z-index: 9;
+    display: block;
+    top: 38%;
+    left: 50%;
+    margin-left: -200px;
+    -webkit-animation: spin 2s infinite;
+    -moz-animation: spin 2s infinite;
+    animation: spin 2s infinite;
+  }
+
+  .bust img{
+    width: 100%;
+  }
+
+  #ball.over{
+    z-index: 10;
+  }
+
+
+</style>
+<body>
+
+
+  <div id="field">
+    <div id="ball" style="left: 264.46px; bottom: 95.6475px;"></div>
+  </div>
+
+  <figure class="bust">
+    <img src="http://www.jac-gatfield.com/uploads/2/6/9/9/26993819/9302468_orig.png" alt="">
+  </figure>
+
+  <script type="text/javascript">
+
+  // Original JavaScript code by Chirp Internet: www.chirp.com.au
+  // Please acknowledge use of this code by including this header.
+
+  (function() {
+
+    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+    var field = document.getElementById("field");
+    var ball = document.getElementById("ball");
+
+    var maxX = field.clientWidth - ball.offsetWidth;
+    var maxY = field.clientHeight - ball.offsetHeight;
+
+    var duration = 2; // seconds
+    var gridSize = 60; // pixels
+
+    var start = null;
+    var stretchFactor;
+
+    function step(timestamp){
+      var progress, x, y;
+      if(start === null) {
+        start = timestamp;
+        // stretchFactor = 1 + (Math.random() * 2);
+        stretchFactor = 3;
+      }
+
+      progress = (timestamp - start) / duration / 1000; // percent
+
+      x = stretchFactor * Math.sin(progress * 2 * Math.PI); // x = ƒ(t)
+      y = Math.cos(progress * 2 * Math.PI + 100); // y = ƒ(t)
+
+      ball.style.left = maxX/2 + (gridSize * x) + "px";
+      ball.style.bottom = maxY/2 + (gridSize * y) + "px";
+
+      if(progress >= .3)
+        ball.classList.add('over');
+
+      if(progress >= .8)
+        ball.classList.remove('over');
+
+      if(progress >= 1) start = null; // reset to start position
+      requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+
+  })();
+
+  </script>
+
+</body>
+</html>
