@@ -38,7 +38,7 @@
     position: absolute;
     z-index: 9;
     display: block;
-    top: 30%;
+    top: 22%;
     left: 50%;
     margin-left: -200px;
     -webkit-animation: spin 2s infinite;
@@ -60,7 +60,7 @@
   }
 
   .face{
-    -webkit-transition: opacity .5s ease;
+    -webkit-transition: opacity .2s ease;
     opacity: 0
   }
 
@@ -103,12 +103,14 @@
   </div>
 
   <figure class="bust">
-    <img class="face face-1" src="http://www.jac-gatfield.com/uploads/2/6/9/9/26993819/9302468_orig.png" alt="">
-    <img class="face face-2" src="http://www.jac-gatfield.com/uploads/2/6/9/9/26993819/9302468_orig.png" alt="">
-    <img class="face face-3" src="http://www.jac-gatfield.com/uploads/2/6/9/9/26993819/9302468_orig.png" alt="">
-    <img class="face face-4" src="http://www.jac-gatfield.com/uploads/2/6/9/9/26993819/9302468_orig.png" alt="">
-    <img class="face face-5" src="http://www.jac-gatfield.com/uploads/2/6/9/9/26993819/9302468_orig.png" alt="">
-    <img class="face face-6" src="http://www.jac-gatfield.com/uploads/2/6/9/9/26993819/9302468_orig.png" alt="">
+  <img class="face face-1" src="https://raw.githubusercontent.com/vitormargis/vitormargis.github.io/master/a1.png" alt="">
+  <img class="face face-2" src="https://raw.githubusercontent.com/vitormargis/vitormargis.github.io/master/a2.png" alt="">
+  <img class="face face-3" src="https://raw.githubusercontent.com/vitormargis/vitormargis.github.io/master/a3.png" alt="">
+  <img class="face face-4" src="https://raw.githubusercontent.com/vitormargis/vitormargis.github.io/master/a4.png" alt="">
+  <img class="face face-5" src="https://raw.githubusercontent.com/vitormargis/vitormargis.github.io/master/a5.png" alt="">
+  <img class="face face-6" src="https://raw.githubusercontent.com/vitormargis/vitormargis.github.io/master/a6.png" alt="">
+  <img class="face face-6" src="https://raw.githubusercontent.com/vitormargis/vitormargis.github.io/master/a7.png" alt="">
+  <img class="face face-6" src="https://raw.githubusercontent.com/vitormargis/vitormargis.github.io/master/a8.png" alt="">
   </figure>
 
   <script type="text/javascript">
@@ -129,13 +131,13 @@
         if(frame === 0) face[face.length-1].classList.remove('current-frame');
       }
 
-      setTimeout(removeFrameCurrent, 250)
+      setTimeout(removeFrameCurrent, 100)
 
       face[frame].classList.add('current-frame');
       console.log(frame);
     }
 
-    setInterval(faceStopMotion, 500);
+    setInterval(faceStopMotion, 200);
 
     window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
