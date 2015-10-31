@@ -8,7 +8,7 @@
   #field{
     width: 1px;
     height: 1px;
-    top: 48%;
+    top: 46%;
     left: 50%;
     position: absolute;
     margin: 0 auto;
@@ -23,12 +23,22 @@
     border-radius: 100%;
   }
 
+  #ball2{
+    width: 40px;
+    height: 60px;
+    position: absolute;
+    background: url(http://www.text4all.net/img/tools_icon.png);
+    background-size: 100%;
+    border-radius: 100%;
+  }
+
+
   .bust{
     width: 400px;
     position: absolute;
     z-index: 9;
     display: block;
-    top: 38%;
+    top: 30%;
     left: 50%;
     margin-left: -200px;
     -webkit-animation: spin 2s infinite;
@@ -38,10 +48,48 @@
 
   .bust img{
     width: 100%;
+    position: absolute;
   }
 
   #ball.over{
+    z-index: 11;
+  }
+
+  #ball2.over{
     z-index: 10;
+  }
+
+  .face{
+    -webkit-transition: opacity .5s ease;
+    opacity: 0
+  }
+
+  .face.current-frame{
+    opacity: 1;
+  }
+
+  .face-1{
+    -webkit-filter: hue-rotate(30deg);
+  }
+
+  .face-2{
+    -webkit-filter: hue-rotate(60deg);
+  }
+
+  .face-3{
+    -webkit-filter: hue-rotate(90deg);
+  }
+
+  .face-4{
+    -webkit-filter: hue-rotate(120deg);
+  }
+
+  .face-5{
+    -webkit-filter: hue-rotate(150deg);
+  }
+
+  .face-6{
+    -webkit-filter: hue-rotate(180deg);
   }
 
 
@@ -51,10 +99,16 @@
 
   <div id="field">
     <div id="ball" style="left: 264.46px; bottom: 95.6475px;"></div>
+    <div id="ball2" style="left: 264.46px; bottom: 95.6475px;"></div>
   </div>
 
   <figure class="bust">
-    <img src="http://www.jac-gatfield.com/uploads/2/6/9/9/26993819/9302468_orig.png" alt="">
+    <img class="face face-1" src="http://www.jac-gatfield.com/uploads/2/6/9/9/26993819/9302468_orig.png" alt="">
+    <img class="face face-2" src="http://www.jac-gatfield.com/uploads/2/6/9/9/26993819/9302468_orig.png" alt="">
+    <img class="face face-3" src="http://www.jac-gatfield.com/uploads/2/6/9/9/26993819/9302468_orig.png" alt="">
+    <img class="face face-4" src="http://www.jac-gatfield.com/uploads/2/6/9/9/26993819/9302468_orig.png" alt="">
+    <img class="face face-5" src="http://www.jac-gatfield.com/uploads/2/6/9/9/26993819/9302468_orig.png" alt="">
+    <img class="face face-6" src="http://www.jac-gatfield.com/uploads/2/6/9/9/26993819/9302468_orig.png" alt="">
   </figure>
 
   <script type="text/javascript">
@@ -64,18 +118,44 @@
 
   (function() {
 
+    var frame = -1;
+    var face = document.querySelectorAll('.face')
+
+    function faceStopMotion(){
+      frame <= face.length-2 ? frame++ : frame = 0;
+
+      function removeFrameCurrent(){
+        if(frame !== 0) face[frame-1].classList.remove('current-frame');
+        if(frame === 0) face[face.length-1].classList.remove('current-frame');
+      }
+
+      setTimeout(removeFrameCurrent, 250)
+
+      face[frame].classList.add('current-frame');
+      console.log(frame);
+    }
+
+    setInterval(faceStopMotion, 500);
+
     window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
     var field = document.getElementById("field");
     var ball = document.getElementById("ball");
+    var ball2 = document.getElementById("ball2");
 
     var maxX = field.clientWidth - ball.offsetWidth;
     var maxY = field.clientHeight - ball.offsetHeight;
 
+    var maxX2 = field.clientWidth - ball2.offsetWidth;
+    var maxY2 = field.clientHeight - ball2.offsetHeight;
+
     var duration = 2; // seconds
-    var gridSize = 60; // pixels
+    var duration2 = 1.8; // seconds
+    var gridSize = 70; // pixels
+    var gridSize2 = 60; // pixels
 
     var start = null;
+    var start2 = null;
     var stretchFactor;
 
     function step(timestamp){
@@ -94,10 +174,10 @@
       ball.style.left = maxX/2 + (gridSize * x) + "px";
       ball.style.bottom = maxY/2 + (gridSize * y) + "px";
 
-      if(progress >= .3)
+      if(progress >= 0.3)
         ball.classList.add('over');
 
-      if(progress >= .8)
+      if(progress >= 0.8)
         ball.classList.remove('over');
 
       if(progress >= 1) start = null; // reset to start position
@@ -105,6 +185,34 @@
     }
 
     requestAnimationFrame(step);
+
+    function step2(timestamp){
+      var progress, x, y;
+      if(start2 === null) {
+        start2 = timestamp;
+        // stretchFactor = 1 + (Math.random() * 2);
+        stretchFactor = 3;
+      }
+
+      progress = (timestamp - start2) / duration2 / 1000; // percent
+
+      x = stretchFactor * Math.sin(progress * 2 * Math.PI + 100); // x = ƒ(t)
+      y = Math.cos(progress * 2 * Math.PI); // y = ƒ(t)
+
+      ball2.style.left = maxX2/2 + (gridSize2 * x) + "px";
+      ball2.style.bottom = maxY2/2 + (gridSize2 * y) + "px";
+
+      if(progress >= 0.3)
+        ball2.classList.add('over');
+
+      if(progress >= 0.8)
+        ball2.classList.remove('over');
+
+      if(progress >= 1) start2 = null; // reset to start2 position
+      requestAnimationFrame(step2);
+    }
+
+    requestAnimationFrame(step2);
 
   })();
 
